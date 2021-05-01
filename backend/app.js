@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const cors = require("middlewares/cors.js");
 const helmet = require("helmet");
 const users = require("./routers/users");
 const cards = require("./routers/cards");
@@ -15,27 +15,21 @@ const { PORT = 3000 } = process.env;
 const app = express();
 const auth = require("./middlewares/auth");
 
-// const corsOptions = {
-//   origin: [
-//     'https://Timofei.Pustarnak.nomoredomains.icu',
-//     'http://Timofei.Pustarnak.nomoredomains.icu',
-//   ],
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
+const corsOptions = {
+  origin: [
+    "https://Timofei.Pustarnak.nomoredomains.icu",
+    "http://Timofei.Pustarnak.nomoredomains.icu",
+  ],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
-app.use(cors);
 app.use(cookieParser());
 app.use(helmet());
-app.use(
-  cors({
-    origin: "http://timofei.pustarnak.nomoredomains.icu",
-    credentials: true,
-  })
-);
+
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
 
