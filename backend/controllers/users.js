@@ -75,8 +75,9 @@ module.exports.login = (req, res, next) => {
         .send(user)
         .end();
     })
-    .catch(() => {
-      throw new AuthError("Ошибка авторизации");
+    .catch((err) => {
+      console.log(err);
+      throw new AuthError("Ошибка авторизации 1");
     })
 
     .catch(next);
