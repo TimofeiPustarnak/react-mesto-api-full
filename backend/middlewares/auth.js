@@ -4,8 +4,8 @@ module.exports = (req, res, next) => {
   const authorization = req.cookies.jwt;
 
   if (!authorization) {
-    console.log(1);
-    return res.status(401).send({ message: "Необходима авторизация" });
+    console.log(3);
+    return res.status(401).send({ message: "Необходима авторизация 1" });
   }
 
   const token = authorization;
@@ -17,8 +17,8 @@ module.exports = (req, res, next) => {
       "2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d"
     );
   } catch (err) {
-    condole.log(100);
-    return res.status(401).send({ message: "Необходима авторизация" });
+    console.log(1);
+    return res.status(401).send({ message: "Необходима авторизация 2" });
   }
 
   req.user = payload;
