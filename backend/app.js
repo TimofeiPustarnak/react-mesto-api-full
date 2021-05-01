@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
 const cookieParser = require("cookie-parser");
-const cors = require("./middlewares/cors");
+// const cors = require("./middlewares/cors");
 const users = require("./routers/users");
 const cards = require("./routers/cards");
 const { createUser, login } = require("./controllers/users");
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
-app.use(cors);
+// app.use(cors);
 
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
