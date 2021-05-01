@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const cors = require("./middlewares/cors");
 const users = require("./routers/users");
 const cards = require("./routers/cards");
 const { createUser, login } = require("./controllers/users");
@@ -24,14 +24,10 @@ const auth = require("./middlewares/auth");
 //app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Max-Age", "86400");
-  next();
-});
-app.use(cors());
-
 app.use(requestLogger);
+
+app.use(cors);
+
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
 app.use(cookieParser());
