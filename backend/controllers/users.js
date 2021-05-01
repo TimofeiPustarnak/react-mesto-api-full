@@ -65,10 +65,12 @@ module.exports.login = (req, res, next) => {
         "2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d",
         { expiresIn: "7d" }
       );
-      res.cookie("jwt", token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      });
+      res
+        .cookie("jwt", token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+        })
+        .end();
     })
     .catch(() => {
       throw new AuthError("Ошибка авторизации");
