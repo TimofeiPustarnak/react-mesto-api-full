@@ -20,6 +20,7 @@ const corsWhiteList = [
   'https://Timofei.Pustarnak.nomoredomains.icu',
   'http://timofei.pustarnak.nomoredomains.icu',
   'https://timofei.pustarnak.nomoredomains.icu',
+  'https://web.postman.co/workspace/My-Workspace~87c017d1-bc23-4aae-898f-83af2dcf3999/request/15292210-81b82941-9cf2-4703-8358-a1991679f558',
 ];
 
 const corsOptions = {
