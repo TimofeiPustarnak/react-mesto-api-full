@@ -123,7 +123,7 @@ module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
     .then((user) => {
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch(() => {
       throw new NotFoundError('Данные не найдены');
