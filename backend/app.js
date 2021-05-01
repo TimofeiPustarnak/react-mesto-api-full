@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const cors = require('./middlewares/cors.js');
+const cors = require('cors');
 const users = require('./routers/users');
 const cards = require('./routers/cards');
 const { createUser, login } = require('./controllers/users');
@@ -15,21 +15,29 @@ const { PORT = 3000 } = process.env;
 const app = express();
 const auth = require('./middlewares/auth');
 
+const corsWhiteList = [
+  'http://Timofei.Pustarnak.nomoredomains.icu',
+  'https://Timofei.Pustarnak.nomoredomains.icu',
+  'http://timofei.pustarnak.nomoredomains.icu',
+  'https://timofei.pustarnak.nomoredomains.icu',
+];
+
 const corsOptions = {
-  origin: [
-    'https://Timofei.Pustarnak.nomoredomains.icu',
-    'http://Timofei.Pustarnak.nomoredomains.icu',
-  ],
+  origin: (origin, callback) => {
+    if (corsWhiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    }
+  },
   credentials: true,
 };
-app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(cookieParser());
 app.use(helmet());
-
+app.use(cors(corsOptions));
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateNewUser, createUser);
 
