@@ -1,4 +1,4 @@
-onst cors = require('cors');
+const cors = require('cors');
 
 const whitelist = [
   'http://localhost:3001',
@@ -15,7 +15,13 @@ const corsOptions = {
     }
   },
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'Authorization',
+  ],
   exposedHeaders: ['Set-Cookie'],
   credentials: true,
 };
