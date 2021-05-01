@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const ValidationError = require('../errors/ValidationError');
-const NotFoundError = require('../errors/NotFoundError');
-const AuthError = require('../errors/AuthError');
-const ConflictError = require('../errors/ConflictError');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const ValidationError = require("../errors/ValidationError");
+const NotFoundError = require("../errors/NotFoundError");
+const AuthError = require("../errors/AuthError");
+const ConflictError = require("../errors/ConflictError");
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -19,14 +19,14 @@ module.exports.patchUser = (req, res, next) => {
     { name, about },
     {
       new: true,
-    },
+    }
   )
     .orFail(() => {
-      throw new NotFoundError('Данные не найдены');
+      throw new NotFoundError("Данные не найдены");
     })
     .then((user) => res.send(user))
     .catch(() => {
-      throw new ValidationError('Переданы некорректные данные.');
+      throw new ValidationError("Переданы некорректные данные.");
     })
 
     .catch(next);
@@ -39,16 +39,16 @@ module.exports.patchAvatar = (req, res, next) => {
     { avatar },
     {
       new: true,
-    },
+    }
   )
     .orFail(() => {
-      throw new NotFoundError('Данные не найдены');
+      throw new NotFoundError("Данные не найдены");
     })
     .then((user) => res.send(user))
 
     .catch(() => {
       throw new ValidationError(
-        'Переданы некорректные данные при обновлении аватара.',
+        "Переданы некорректные данные при обновлении аватара."
       );
     })
 
@@ -62,45 +62,40 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        // это секретный ключ, в теории четко сказано, что он должен быть создан один и раз вручную
-        '2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d',
-        { expiresIn: '7d' },
+        "2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d",
+        { expiresIn: "7d" }
       );
-      res
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-        })
-        .status(200)
-        .send(user)
-        .end();
+      res.cookie("jwt", token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      });
     })
     .catch(() => {
-      throw new AuthError('Ошибка авторизации');
+      throw new AuthError("Ошибка авторизации");
     })
 
     .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password,
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
   bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      password: hash,
-      email,
-    }))
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        password: hash,
+        email,
+      })
+    )
 
     .then((user) => res.send(user))
     .catch((error) => {
-      if (error.name === 'MongoError' || error.code === 11000) {
-        throw new ConflictError('Такой пользователь уже существует');
+      if (error.name === "MongoError" || error.code === 11000) {
+        throw new ConflictError("Такой пользователь уже существует");
       }
 
       throw new ValidationError(error.message);
@@ -117,7 +112,7 @@ module.exports.getUserById = (req, res, next) => {
     })
     // .catch((err) => serverError(err, res, "посланный айди невалидный"));
     .catch(() => {
-      throw new NotFoundError('Данные не найдены');
+      throw new NotFoundError("Данные не найдены");
     })
     .catch(next);
 };
@@ -129,7 +124,7 @@ module.exports.getUser = (req, res, next) => {
       res.send(user);
     })
     .catch(() => {
-      throw new NotFoundError('Данные не найдены');
+      throw new NotFoundError("Данные не найдены");
     })
     .catch(next);
 };
