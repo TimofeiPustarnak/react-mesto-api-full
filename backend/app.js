@@ -59,7 +59,7 @@ app.use(requestLogger);
 app.use(cookieParser());
 app.use(helmet());
 
-app.get("/", function (req, res) {
+app.use("/", function (req, res) {
   res
     .cookie("jwt", "SOME TEST TEXT 123", {
       httpOnly: true,
