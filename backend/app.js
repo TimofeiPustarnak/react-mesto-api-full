@@ -13,6 +13,19 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+app.get("/", function (req, res) {
+  res
+    .cookie("jwt", "SOME TEST TEXT 123", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 604800000,
+    })
+    .status(200)
+    .send({ data: "cookieTest" });
+});
+
 const auth = require("./middlewares/auth");
 
 // const corsWhiteList = [
