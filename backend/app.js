@@ -15,33 +15,34 @@ const { PORT = 3000 } = process.env;
 const app = express();
 const auth = require("./middlewares/auth");
 
-const corsWhiteList = [
-  "http://Timofei.Pustarnak.nomoredomains.icu",
-  "https://Timofei.Pustarnak.nomoredomains.icu",
-  "http://timofei.pustarnak.nomoredomains.icu",
-  "https://timofei.pustarnak.nomoredomains.icu",
-];
+// const corsWhiteList = [
+//   "http://Timofei.Pustarnak.nomoredomains.icu",
+//   "https://Timofei.Pustarnak.nomoredomains.icu",
+//   "http://timofei.pustarnak.nomoredomains.icu",
+//   "https://timofei.pustarnak.nomoredomains.icu",
+// ];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (corsWhiteList.indexOf(origin) !== -1) {
-      callback(null, true);
-    }
-  },
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (corsWhiteList.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     }
+//   },
+//   credentials: true,
+// };
+const options = {
+  origin: [
+    "http://Timofei.Pustarnak.nomoredomains.icu",
+    "https://Timofei.Pustarnak.nomoredomains.icu",
+    "http://timofei.pustarnak.nomoredomains.icu",
+    "https://timofei.pustarnak.nomoredomains.icu",
+  ],
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ["Content-Type", "Origin", "Authorization"],
   credentials: true,
 };
-// const corsSet = cors({
-//   allowedHeaders: ['X-Requested-With', 'Content-type', 'Accept', 'Origin'],
-//   origin: [
-//     'http://Timofei.Pustarnak.nomoredomains.icu',
-//     'https://Timofei.Pustarnak.nomoredomains.icu',
-//     'http://timofei.pustarnak.nomoredomains.icu',
-//     'https://timofei.pustarnak.nomoredomains.icu',
-//   ],
-//   methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-//   preflightContinue: false,
-//   credentials: true,
-// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,7 +50,9 @@ app.use(requestLogger);
 
 app.use(cookieParser());
 app.use(helmet());
-app.use(cors(corsOptions));
+app.use("*", cors(options));
+
+//app.use(cors(corsOptions));
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
 
