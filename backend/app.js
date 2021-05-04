@@ -37,10 +37,16 @@ const options = {
     "http://timofei.pustarnak.nomoredomains.icu",
     "https://timofei.pustarnak.nomoredomains.icu",
   ],
-  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: ["Content-Type", "Origin", "Authorization"],
+  allowedHeaders: [
+    "Content-Type",
+    "Origin",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+  ],
   credentials: true,
 };
 
