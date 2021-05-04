@@ -42,9 +42,9 @@ app.use(cors(corsOptions));
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
 
-app.use(auth);
-app.use("/", cards);
-app.use("/", users);
+// app.use(auth);
+app.use("/", auth, cards);
+app.use("/", auth, users);
 app.use(errorLogger);
 app.use(errors());
 
