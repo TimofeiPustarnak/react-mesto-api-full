@@ -59,8 +59,6 @@ app.use(requestLogger);
 app.use(cookieParser());
 app.use(helmet());
 
-app.use("*", cors(options));
-
 app.get("/", function (req, res) {
   res
     .cookie("jwt", "SOME TEST TEXT 123", {
@@ -73,6 +71,7 @@ app.get("/", function (req, res) {
     .send({ data: "cookieTest" });
 });
 
+app.use("*", cors(options));
 //app.use(cors(corsOptions));
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateNewUser, createUser);
