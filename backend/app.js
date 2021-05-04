@@ -36,6 +36,7 @@ const options = {
     "https://Timofei.Pustarnak.nomoredomains.icu",
     "http://timofei.pustarnak.nomoredomains.icu",
     "https://timofei.pustarnak.nomoredomains.icu",
+    "https://web.postman.co",
   ],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
   preflightContinue: false,
