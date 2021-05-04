@@ -55,26 +55,48 @@ module.exports.patchAvatar = (req, res, next) => {
     .catch(next);
 };
 
+// module.exports.login = (req, res, next) => {
+//   const { email, password } = req.body;
+
+//   User.findUserByCredentials(email, password)
+//     .then((user) => {
+//       const token = jwt.sign(
+//         { _id: user._id },
+//         "2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d",
+//         { expiresIn: "7d" }
+//       );
+//       res.cookie("jwt", token, {
+//         maxAge: 3600000 * 24 * 7,
+//         httpOnly: true,
+//       });
+//       res.send(user._id);
+//     })
+//     .catch(() => {
+//       throw new AuthError("Ошибка авторизации");
+//     })
+
+//     .catch(next);
+// };
+
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-
-  User.findUserByCredentials(email, password)
+  return User.findUserByCredentials(email, password)
+    .then((user) => User.findById(user._id))
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
         "2061f1dbc12f53401a57d915f2e090cbca576b875e5e774d29cfc2462ce2d27d",
         { expiresIn: "7d" }
       );
-      res.cookie("jwt", token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      });
-      res.send(user._id);
+      res
+        .cookie("jwt", token, {
+          maxAge: 604800000,
+          httpOnly: true,
+        })
+        .status(200)
+        .send(user)
+        .end();
     })
-    .catch(() => {
-      throw new AuthError("Ошибка авторизации");
-    })
-
     .catch(next);
 };
 
