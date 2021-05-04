@@ -59,18 +59,6 @@ app.use(requestLogger);
 app.use(cookieParser());
 app.use(helmet());
 
-app.use("/", function (req, res) {
-  res
-    .cookie("jwt", "SOME TEST TEXT 123", {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 604800000,
-    })
-    .status(200)
-    .send({ data: "cookieTest" });
-});
-
 app.use("*", cors(options));
 //app.use(cors(corsOptions));
 app.post("/signin", validateLogin, login);
